@@ -81,15 +81,6 @@ async function writeBudget(budget) {
     await fs.promises.writeFile(budgetsPath, JSON.stringify(budget, null, 2));
 }
 
-async function checkDuplicateCategory(category) {
-    const budget = await readBudget();
-    if (category in budget) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 async function addNewCategory(category, amount) {
     const budget = await readBudget();
     budget[category] = amount;
@@ -111,6 +102,12 @@ async function changeToUncategorized(category) {
     });
     await writeExpenses(data);
 }
+
+app.get("/", async (req, res) => {
+    const expenses = await readExpenses();
+    const budgets = await readBudget();
+    res.render("index.ejs", { expenses: expenses, budgets: budgets });
+});
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
