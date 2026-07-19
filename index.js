@@ -85,12 +85,17 @@ async function addNewCategory(category, amount) {
     const budget = await readBudget();
     budget[category] = amount;
     await writeBudget(budget);
+    return {
+        category: category,
+        amount: amount
+    };
 }
 
 async function deleteCategory(category) {
     const budget = await readBudget();
     delete budget[category];
     await writeBudget(budget);
+    return category;
 }
 
 async function changeToUncategorized(category) {
@@ -106,7 +111,60 @@ async function changeToUncategorized(category) {
 app.get("/", async (req, res) => {
     const expenses = await readExpenses();
     const budgets = await readBudget();
-    res.render("index.ejs", { expenses: expenses, budgets: budgets });
+    res.render("index.ejs", { expenses, budgets });
+});
+
+app.post("/expenses", async (req, res) => {
+    const expenseBody = req.body;
+    const { name, category, amount, date } = expenseBody;
+    const expense = await createNewExpense(name, category, amount, date);
+    res.status(201);
+    res.json(expense);
+});
+
+app.put("/expenses/:id", async (req, res) => {
+    const expenseBody = req.body;
+    const { name, category, amount, date } = expenseBody; 
+    const expenseID = req.params.id;
+    const updatedExpense = await updateExpense(expenseID, name, category, amount, date);
+    res.status(200);
+    res.json(updatedExpense);
+});
+
+app.delete("/expenses/:id", async (req, res) => {
+    const expenseID = req.params.id;
+    const deletedID = await deleteExpense(expenseID);
+    res.status(200);
+    res.json(deletedID);
+});
+
+app.post("/categories", async (req, res) => {
+    const budgetBody = req.body;
+    const { category, amount } = budgetBody;
+    const newCategory = await addNewCategory(category, amount);
+    res.status(201);
+    res.json(newCategory);
+});
+
+app.put("/categories/:name", async (req, res) => {
+    const categoryName = req.params.name;
+    const { amount } = req.body;
+    const updatedCategory = await addNewCategory(categoryName, amount);
+    res.status(200);
+    res.json(updatedCategory);
+});
+
+app.delete("/categories/:name", async (req, res) => {
+   const categoryName = req.params.name;
+   if (categoryName === "Uncategorized") {
+        res.status(403);
+        res.json("Uncategorized cannot be deleted");
+   } else {
+        await deleteCategory(categoryName);
+        await changeToUncategorized(categoryName);
+        res.status(200);
+        res.json(`Deleted ${categoryName}`);
+   }
 });
 
 app.listen(port, () => {
