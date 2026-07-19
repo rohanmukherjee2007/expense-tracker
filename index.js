@@ -44,20 +44,20 @@ async function createNewExpense(name, category, amount, date) {
     await writeExpenses(data);
 }
 
-async function deleteExpense(userID) {
+async function deleteExpense(expenseID) {
     const data = await readExpenses();
     const newData = data.filter((record) => {
-        if (record.id !== userID) {
+        if (record.id !== expenseID) {
             return true;
         }
     });
     await writeExpenses(newData);
 }
 
-async function updateExpense(userID, name, category, amount, date) {
+async function updateExpense(expenseID, name, category, amount, date) {
     const data = await readExpenses();
     data.forEach((expense) => {
-        if (expense.id === userID) {
+        if (expense.id === expenseID) {
             expense.name = name;
             expense.category = category;
             expense.amount = amount;
