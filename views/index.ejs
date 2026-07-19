@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>Expense Tracker</h1>
+    <section id="add-expense">
+        <h2>Add Expense</h2>
+        <form id="expense-form">
+            <input type="text" name="name" placeholder="Expense name" required>
+            <select name="category" required>
+                <% for (const category in budgets) { %>
+                    <option value="<%= category %>"><%= category %></option>
+                <% } %>
+            </select>
+            <input type="number" name="amount" placeholder="Amount" required>
+            <input type="date" name="date" required>
+            <button type="submit">Add Expense</button>
+        </form>
+    </section>
+    <section id="expense-list">
+        <h2>Expenses</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th><th>Category</th><th>Amount</th><th>Date</th><th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="expense-table-body">
+                <% expenses.forEach((expense) => { %>
+                    <tr data-id="<%= expense.id %>">
+                        <td class="expense-name"><%= expense.name %></td>
+                        <td class="expense-category"><%= expense.category %></td>
+                        <td class="expense-amount"><%= expense.amount %></td>
+                        <td class="expense-date"><%= expense.date %></td>
+                        <td>
+                            <button class="edit-btn">Edit</button>
+                            <button class="delete-btn">Delete</button>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </section>
+    <section id="category-management">
+        <h2>Categories & Budgets</h2>
+        <ul id="category-list">
+            <% for (const category in budgets) { %>
+                <li data-category="<%= category %>">
+                    <span class="category-name"><%= category %></span>:
+                    <span class="category-budget"><%= budgets[category] %></span>
+                    <% if (category !== "Uncategorized") { %>
+                        <button class="delete-category-btn">Delete</button>
+                    <% } %>
+                </li>
+            <% } %>
+        </ul>
+        <form id="add-category-form">
+            <input type="text" name="category" placeholder="New category name" required>
+            <input type="number" name="amount" placeholder="Budget amount" required>
+            <button type="submit">Add Category</button>
+        </form>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #1f2d20;
+    background-color: #f4f9f4;
+}
+
+h1 {
+    padding-bottom: 10px;
+    color: #2f5233;
+}
+
+h2 {
+    margin-top: 30px;
+    color: #2f5233;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+input, select, button {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #a3c9a8;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #d9ecd9;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #bfe0bf;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #e3f2e3;
+    color: #2f5233;
+}
+
+#category-list {
+    list-style: none;
+    padding: 0;
+}
+
+#category-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.category-name {
+    font-weight: bold;
+    color: #2f5233;
+}
+
+.delete-category-btn, .delete-btn, .edit-btn {
+    background-color: #ffffff;
+}
+
+.delete-category-btn:hover, .delete-btn:hover, .edit-btn:hover {
+    background-color: #f0f0f0;
+}
