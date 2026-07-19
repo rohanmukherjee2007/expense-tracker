@@ -42,29 +42,34 @@ async function createNewExpense(name, category, amount, date) {
     };
     data.push(newExpense);
     await writeExpenses(data);
+    return newExpense;
 }
 
 async function deleteExpense(expenseID) {
     const data = await readExpenses();
-    const newData = data.filter((record) => {
-        if (record.id !== expenseID) {
+    const newData = data.filter((expense) => {
+        if (expense.id !== expenseID) {
             return true;
         }
     });
     await writeExpenses(newData);
+    return expenseID;
 }
 
 async function updateExpense(expenseID, name, category, amount, date) {
     const data = await readExpenses();
+    let updatedExpense;
     data.forEach((expense) => {
         if (expense.id === expenseID) {
             expense.name = name;
             expense.category = category;
             expense.amount = amount;
             expense.date = date;
+            updatedExpense = expense;
         }
     });
     await writeExpenses(data);
+    return updatedExpense;
 }
 
 async function readBudget() {
