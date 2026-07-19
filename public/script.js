@@ -110,7 +110,7 @@ categoryList.addEventListener("click", (event) => {
                 optionToRemove.remove();
             })
             .catch((error) => {
-                console.error("Failed to delete category:", error);
+                console.error(error);
             });
     }
 });
